@@ -6,15 +6,33 @@ This walkthrough demonstrates how vendoring a dependency affects vulnerability s
 
 Before vendoring, let's check for vulnerabilities in the installed `requests` package.
 
-### Scan with OSV-Scanner
+### Scan for Vulnerabilities
 
-If you haven't already installed OSV-Scanner, you can do so by following the [OSV-Scanner documentation](https://osv.dev/).
+We'll use `endorctl` to scan the project for known vulnerabilities.
 
-Run the following command to scan the dependencies:
+#### Step-by-step:
 
-```sh
-osv-scanner scan -L requirements.txt
-```
+1. **Initialize Endor Labs**  
+   Run the following command to authenticate with Endor Labs and set up your environment:
+   ```bash
+   ./endorctl init --auth-mode <mode> --headless-mode
+   ```
+   Replace `<mode>` with your preferred authentication mode (e.g., `google`, `github`, etc.).
+
+2. **Authenticate via Portal**  
+   The command will output a URL. You can command-click (⌘+click) the link in your terminal to open the authentication portal.  
+   Log in and copy the generated token.
+
+3. **Complete Setup**  
+   Paste the token back into your terminal.  
+   You'll then be prompted to select a tenant—choose the one you just created.
+
+4. **Run the Vulnerability Scan**  
+   Once authenticated and configured, scan your codebase:
+   ```bash
+   ./endorctl scan
+   ```
+   This will analyze your project for security vulnerabilities.
 
 ### Expected Output
 
@@ -88,7 +106,7 @@ def get(url, headers=None):
 Now that `requests` is no longer used, let's run OSV-Scanner again:
 
 ```sh
-osv-scanner -r requirements.txt
+./endorctl scan
 ```
 
 ### Expected Outcome
